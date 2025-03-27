@@ -1,4 +1,5 @@
-const API_KEY = 'aac18cf3acf04bf69cb2ecf5cd878583';
+// Use API key from environment variables
+const API_KEY = process.env.REACT_APP_NEWS_API_KEY;
 const BASE_URL = 'https://newsapi.org/v2';
 
 export const fetchTopHeadlines = async (category = 'general', country = 'us') => {

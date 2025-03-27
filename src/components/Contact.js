@@ -1,72 +1,13 @@
 import React, { useState } from 'react';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
   const [formStatus, setFormStatus] = useState({
     submitted: false,
     error: null
   });
 
-  // Currently using the Formspree form directly
-  // These handlers are kept for reference if switching to a different implementation
-
-  // eslint-disable-next-line no-unused-vars
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value
-    }));
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    try {
-      // Form validation
-      if (!formData.name || !formData.email || !formData.message) {
-        throw new Error('Please fill out all required fields');
-      }
-      
-      // Using Formspree as a serverless form handler
-      const response = await fetch('https://formspree.io/f/mblgalwgd', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
-      
-      if (!response.ok) {
-        throw new Error('There was a problem submitting the form');
-      }
-      
-      // Success
-      setFormStatus({
-        submitted: true,
-        error: null
-      });
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-    } catch (error) {
-      setFormStatus({
-        submitted: false,
-        error: error.message
-      });
-    }
-  };
+  // Get Formspree ID from environment variable
+  const formspreeId = process.env.REACT_APP_FORMSPREE_ID;
 
   return (
     <div className="about-container">
@@ -94,8 +35,7 @@ const Contact = () => {
         ) : (
           <div className="contact-form-container">
             {/* Using Formspree for form submission */}
-            <form className="contact-form"   action="https://formspree.io/f/mblgalwgd"
-  method="POST">
+            <form className="contact-form" action={`https://formspree.io/f/${formspreeId}`} method="POST">
               <div className="form-group">
                 <label htmlFor="name">Name *</label>
                 <input
