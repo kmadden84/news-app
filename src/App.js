@@ -118,25 +118,31 @@ function App() {
 
   const HomePage = () => (
     <>
-      <SearchBar onSearch={handleSearch} />
+      <div className="search-container-wrapper">
+        <SearchBar onSearch={handleSearch} />
+      </div>
       
-      {error && <div className="error-message">{error}</div>}
+      {error && <div className="error-container"><div className="error-message">{error}</div></div>}
       
-      <div className="info-message">
-        Click on any article to read the full story in a new tab
+      <div className="info-message-container">
+        <div className="info-message">
+          Click on any article to read the full story in a new tab
+        </div>
       </div>
       
       {!isSearching ? (
         <>
-          <FeaturedNews articles={featuredArticles} />
-          
-          <section id="categories">
+          <section id="categories" className="mobile-categories">
             <CategorySelector 
               activeCategory={activeCategory} 
               onSelectCategory={handleCategorySelect} 
             />
-            
-            <div className="category-news">
+          </section>
+          
+          {activeCategory === 'general' ? (
+            <FeaturedNews articles={featuredArticles} />
+          ) : (
+            <div className="category-news top-category-section">
               <h2 className="section-title">
                 {activeCategory.charAt(0).toUpperCase() + activeCategory.slice(1)} News
               </h2>
@@ -151,7 +157,32 @@ function App() {
                 </div>
               )}
             </div>
+          )}
+          
+          <section id="categories" className="desktop-categories">
+            <CategorySelector 
+              activeCategory={activeCategory} 
+              onSelectCategory={handleCategorySelect} 
+            />
           </section>
+          
+          {activeCategory === 'general' ? (
+            <div className="category-news">
+              <h2 className="section-title">Latest News</h2>
+              
+              {isLoading ? (
+                <div className="loading">Loading...</div>
+              ) : (
+                <div className="news-grid">
+                  {categoryArticles.map((article, index) => (
+                    <NewsCard key={index} article={article} />
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <FeaturedNews articles={featuredArticles} />
+          )}
           
           <section id="trending">
             <TrendingNews articles={trendingArticles} />

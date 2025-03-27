@@ -12,6 +12,10 @@ const Contact = () => {
     error: null
   });
 
+  // Currently using the Formspree form directly
+  // These handlers are kept for reference if switching to a different implementation
+
+  // eslint-disable-next-line no-unused-vars
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevData => ({
@@ -20,6 +24,7 @@ const Contact = () => {
     }));
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -30,7 +35,7 @@ const Contact = () => {
       }
       
       // Using Formspree as a serverless form handler
-      const response = await fetch('https://formspree.io/f/yourformid', {
+      const response = await fetch('https://formspree.io/f/mblgalwgd', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -63,12 +68,6 @@ const Contact = () => {
     }
   };
 
-  // Alternatively use FormSubmit service to handle form submissions
-  const handleFormSubmitService = (e) => {
-    // Form will be handled by FormSubmit.co service
-    // This doesn't need additional handling here
-  };
-
   return (
     <div className="about-container">
       <h1 className="section-title">Contact Us</h1>
@@ -94,63 +93,9 @@ const Contact = () => {
           </div>
         ) : (
           <div className="contact-form-container">
-            {/* Option 1: Using Formspree */}
-            {/* Uncomment this form and add your Formspree form ID */}
-            {/* <form className="contact-form" onSubmit={handleSubmit}>
-              {formStatus.error && <div className="form-error">{formStatus.error}</div>}
-              
-              <div className="form-group">
-                <label htmlFor="name">Name *</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="email">Email *</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="subject">Subject</label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                />
-              </div>
-              
-              <div className="form-group">
-                <label htmlFor="message">Message *</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows="6"
-                  required
-                ></textarea>
-              </div>
-              
-              <button type="submit" className="contact-button">Send Message</button>
-            </form> */}
-            
-            {/* Option 2: Using FormSubmit.co service */}
-            <form className="contact-form" action="https://formsubmit.co/info@newshub.example.com" method="POST">
+            {/* Using Formspree for form submission */}
+            <form className="contact-form"   action="https://formspree.io/f/mblgalwgd"
+  method="POST">
               <div className="form-group">
                 <label htmlFor="name">Name *</label>
                 <input
@@ -191,7 +136,7 @@ const Contact = () => {
                 ></textarea>
               </div>
 
-              {/* Optional FormSubmit.co configurations */}
+              {/* Optional Formspree configurations */}
               <input type="hidden" name="_template" value="table" />
               <input type="hidden" name="_next" value="/thanks" />
               <input type="hidden" name="_captcha" value="false" />
