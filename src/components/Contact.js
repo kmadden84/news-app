@@ -90,23 +90,6 @@ const Contact = () => {
           </div>
         )}
         
-        <section className="about-section contact-alternative">
-          <h2>Other Ways to Reach Us</h2>
-          <div className="contact-methods">
-            <div className="contact-method">
-              <h3>Email</h3>
-              <p><a href="mailto:info@newshub.example.com">info@newshub.example.com</a></p>
-            </div>
-            <div className="contact-method">
-              <h3>Follow Us</h3>
-              <div className="social-links">
-                <a href="https://twitter.com/example" target="_blank" rel="noopener noreferrer" className="social-link">Twitter</a>
-                <a href="https://facebook.com/example" target="_blank" rel="noopener noreferrer" className="social-link">Facebook</a>
-                <a href="https://instagram.com/example" target="_blank" rel="noopener noreferrer" className="social-link">Instagram</a>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   );
