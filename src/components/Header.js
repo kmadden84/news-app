@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DarkModeToggle from './DarkModeToggle';
 
-function Header() {
+function Header({ darkMode, toggleDarkMode }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -19,6 +20,11 @@ function Header() {
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleCategoryClick = (category) => {
+    navigate(`/categories/${category}`);
+    if (isMobile) setMenuOpen(false);
   };
 
   return (
@@ -43,13 +49,13 @@ function Header() {
           <div className="header-right">
             <nav className="nav-links">
               <Link to="/" className="nav-link">Home</Link>
-              <Link to="/categories/business" className="nav-link">Business</Link>
-              <Link to="/categories/technology" className="nav-link">Technology</Link>
-              <Link to="/categories/health" className="nav-link">Health</Link>
-              <Link to="/categories/science" className="nav-link">Science</Link>
+              <button onClick={() => handleCategoryClick('business')} className="nav-link-button">Business</button>
+              <button onClick={() => handleCategoryClick('technology')} className="nav-link-button">Technology</button>
+              <button onClick={() => handleCategoryClick('health')} className="nav-link-button">Health</button>
+              <button onClick={() => handleCategoryClick('science')} className="nav-link-button">Science</button>
               <Link to="/contact" className="nav-link">Contact</Link>
             </nav>
-            <DarkModeToggle />
+            <DarkModeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
           </div>
         )}
 
@@ -57,14 +63,14 @@ function Header() {
           <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
             <nav className="mobile-nav-links">
               <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>Home</Link>
-              <Link to="/categories/business" className="nav-link" onClick={() => setMenuOpen(false)}>Business</Link>
-              <Link to="/categories/technology" className="nav-link" onClick={() => setMenuOpen(false)}>Technology</Link>
-              <Link to="/categories/health" className="nav-link" onClick={() => setMenuOpen(false)}>Health</Link>
-              <Link to="/categories/science" className="nav-link" onClick={() => setMenuOpen(false)}>Science</Link>
+              <button onClick={() => handleCategoryClick('business')} className="nav-link-button">Business</button>
+              <button onClick={() => handleCategoryClick('technology')} className="nav-link-button">Technology</button>
+              <button onClick={() => handleCategoryClick('health')} className="nav-link-button">Health</button>
+              <button onClick={() => handleCategoryClick('science')} className="nav-link-button">Science</button>
               <Link to="/contact" className="nav-link" onClick={() => setMenuOpen(false)}>Contact</Link>
             </nav>
             <div className="mobile-dark-mode">
-              <DarkModeToggle />
+              <DarkModeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
             </div>
           </div>
         )}

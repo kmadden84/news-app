@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import './styles/NewsApp.css';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -19,16 +19,74 @@ import {
   searchNews 
 } from './services/newsService';
 
+// Wrapper component to handle category params
+function HomePageWithCategory() {
+  const { category } = useParams();
+  return <HomePage initialCategory={category} />;
+}
+
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
+  // Apply dark mode class to body
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  }, [darkMode]);
+
+  // Check for saved dark mode preference
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem('dark-mode') === 'true';
+    setDarkMode(savedDarkMode);
+  }, []);
+
+  return (
+    <Router>
+      <div className="app-container">
+        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<HomePage initialCategory="general" />} />
+            <Route path="/categories/:category" element={<HomePageWithCategory />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/thanks" element={<ThankYou />} />
+          </Routes>
+        </main>
+        
+        <Footer />
+      </div>
+    </Router>
+  );
+}
+
+function HomePage({ initialCategory = "general" }) {
   const [featuredArticles, setFeaturedArticles] = useState([]);
   const [trendingArticles, setTrendingArticles] = useState([]);
   const [categoryArticles, setCategoryArticles] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const [activeCategory, setActiveCategory] = useState('general');
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
   const [isSearching, setIsSearching] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
+
+  // Update active category when initialCategory changes (from router)
+  useEffect(() => {
+    if (initialCategory) {
+      setActiveCategory(initialCategory);
+    }
+  }, [initialCategory]);
 
   // Fetch featured and trending news on initial load
   useEffect(() => {
@@ -71,31 +129,6 @@ function App() {
     loadCategoryNews();
   }, [activeCategory]);
 
-  // Toggle dark mode
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
-
-  // Apply dark mode class to body
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add('dark-mode');
-    } else {
-      document.body.classList.remove('dark-mode');
-    }
-  }, [darkMode]);
-
-  // Check for saved dark mode preference
-  useEffect(() => {
-    const savedDarkMode = localStorage.getItem('dark-mode') === 'true';
-    setDarkMode(savedDarkMode);
-  }, []);
-
-  // Save dark mode preference
-  useEffect(() => {
-    localStorage.setItem('dark-mode', darkMode);
-  }, [darkMode]);
-
   // Handle category selection
   const handleCategorySelect = (category) => {
     setActiveCategory(category);
@@ -116,7 +149,7 @@ function App() {
     }
   };
 
-  const HomePage = () => (
+  return (
     <>
       <div className="search-container-wrapper">
         <SearchBar onSearch={handleSearch} />
@@ -206,27 +239,6 @@ function App() {
         </section>
       )}
     </>
-  );
-
-  return (
-    <Router>
-      <div className="app-container">
-        <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-        
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/thanks" element={<ThankYou />} />
-          </Routes>
-        </main>
-        
-        <Footer />
-      </div>
-    </Router>
   );
 }
 

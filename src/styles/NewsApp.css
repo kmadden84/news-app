@@ -154,6 +154,24 @@ body {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
+.nav-link-button {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  margin: 0 5px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  background: transparent;
+  border: none;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.nav-link-button:hover {
+  background-color: var(--nav-hover);
+}
+
 .main-content {
   flex: 1;
   max-width: 1200px;
@@ -1284,6 +1302,18 @@ body {
   text-align: left;
   width: 100%;
   box-sizing: border-box;
+}
+
+.mobile-nav-links .nav-link-button {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: inherit;
+  font-family: inherit;
+  background: transparent;
+  color: white;
 }
 
 .mobile-dark-mode {
