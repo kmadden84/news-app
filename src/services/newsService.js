@@ -9,7 +9,7 @@ const isDev = process.env.NODE_ENV === 'development';
 // In production, we use the Netlify function
 const BASE_URL = isDev 
   ? '' // Empty string uses proxy in package.json
-  : 'https://newsapp-proxy.netlify.app/api'; // Replace with your actual Netlify site
+  : 'https://news-app-proxy.netlify.app/api'; // Your actual Netlify site URL
 
 export const fetchTopHeadlines = async (category = 'general', country = 'us') => {
   try {
