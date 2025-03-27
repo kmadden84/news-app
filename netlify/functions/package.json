@@ -1,0 +1,9 @@
+{
+  "name": "newsapi-proxy",
+  "version": "1.0.0",
+  "description": "Proxy for NewsAPI",
+  "main": "newsapi-proxy.js",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+} 
