@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import DarkModeToggle from './DarkModeToggle';
 
 function Header({ darkMode, toggleDarkMode }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,11 +28,24 @@ function Header({ darkMode, toggleDarkMode }) {
     if (isMobile) setMenuOpen(false);
   };
 
+  const handleHomeClick = (e) => {
+    e.preventDefault();
+    // Force a full navigation to home that will reset all state
+    if (location.pathname === '/') {
+      // If already on the home page, reload it to clear search results
+      window.location.href = '#/';
+      window.location.reload();
+    } else {
+      navigate('/');
+    }
+    if (isMobile) setMenuOpen(false);
+  };
+
   return (
     <header className="header">
       <div className="header-container">
         <div className="logo-container">
-          <Link to="/" className="logo">NewsHub</Link>
+          <a href="#/" className="logo" onClick={handleHomeClick}>NewsHub</a>
           {isMobile && (
             <button 
               className={`hamburger-menu ${menuOpen ? 'open' : ''}`} 
@@ -48,7 +62,7 @@ function Header({ darkMode, toggleDarkMode }) {
         {!isMobile && (
           <div className="header-right">
             <nav className="nav-links">
-              <Link to="/" className="nav-link">Home</Link>
+              <a href="#/" className="nav-link" onClick={handleHomeClick}>Home</a>
               <button onClick={() => handleCategoryClick('business')} className="nav-link-button">Business</button>
               <button onClick={() => handleCategoryClick('technology')} className="nav-link-button">Technology</button>
               <button onClick={() => handleCategoryClick('health')} className="nav-link-button">Health</button>
@@ -62,7 +76,7 @@ function Header({ darkMode, toggleDarkMode }) {
         {isMobile && (
           <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
             <nav className="mobile-nav-links">
-              <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>Home</Link>
+              <a href="#/" className="nav-link" onClick={handleHomeClick}>Home</a>
               <button onClick={() => handleCategoryClick('business')} className="nav-link-button">Business</button>
               <button onClick={() => handleCategoryClick('technology')} className="nav-link-button">Technology</button>
               <button onClick={() => handleCategoryClick('health')} className="nav-link-button">Health</button>
